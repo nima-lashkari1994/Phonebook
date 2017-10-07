@@ -1,6 +1,8 @@
 package ir.maktab.phoneBook.model.contact.logic;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
 import ir.maktab.phoneBook.model.contact.Contact;
@@ -36,7 +38,7 @@ public class ContactManager extends AbstractEntityManager<Contact> {
 	}
 
 	@Override
-	public Collection<Contact> list() {
+	public List<Contact> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}

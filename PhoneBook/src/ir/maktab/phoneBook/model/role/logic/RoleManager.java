@@ -1,6 +1,7 @@
 package ir.maktab.phoneBook.model.role.logic;
 
-import java.util.Set;
+
+import java.util.List;
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
 import ir.maktab.phoneBook.model.role.Role;
@@ -36,7 +37,7 @@ public class RoleManager extends AbstractEntityManager <Role> {
 	}
 
 	@Override
-	public Set<Role> list() {
+	public List<Role> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,7 @@
 package ir.maktab.phoneBook.model.user.logic;
 
-import java.util.Set;
+
+import java.util.List;
 
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
@@ -26,6 +27,7 @@ public class UserManager extends AbstractEntityManager<User> {
 	@Override
 	public boolean add(User e) {
 		e.setRole(Role.getSimpleUserRole());
+		System.out.println(e+"  in manager");
 		return this.getDao().add(e);
 	}
 
@@ -40,7 +42,7 @@ public class UserManager extends AbstractEntityManager<User> {
 	}
 
 	@Override
-	public Set<User> list() {
+	public List<User> list() {
 		return this.getDao().getAll();
 	}
 

@@ -1,6 +1,7 @@
 package ir.maktab.phoneBook.base;
 
-import java.util.Collection;
+
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
@@ -11,6 +12,6 @@ public interface EntityService<E> {
 	void remove(E e);
 	void remove(String userName);
 	void update(E e);
-	Collection<E> getAll();
-	Collection<E> getAll(Integer start, Integer len);
+	List<E> getAll();
+	List<E> getAll(Integer start, Integer len);
 }

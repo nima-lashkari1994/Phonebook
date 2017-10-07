@@ -1,13 +1,14 @@
 package ir.maktab.phoneBook.api.contact;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
 import ir.maktab.phoneBook.base.AbstractEntityService;
 import ir.maktab.phoneBook.model.contact.Contact;
 
-public class ContactService extends AbstractEntityService<Contact>{
+public class ContactService extends AbstractEntityService<Contact> {
 
 	@Override
 	public Response add(Contact e) {
@@ -40,17 +41,15 @@ public class ContactService extends AbstractEntityService<Contact>{
 	}
 
 	@Override
-	public Collection<Contact> getAll() {
+	public List<Contact> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection<Contact> getAll(Integer start, Integer len) {
+	public List<Contact> getAll(Integer start, Integer len) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
-	
 }

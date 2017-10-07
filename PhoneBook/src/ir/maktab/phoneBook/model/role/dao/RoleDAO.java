@@ -1,6 +1,7 @@
 package ir.maktab.phoneBook.model.role.dao;
 
-import java.util.Set;
+
+import java.util.List;
 
 
 import ir.maktab.phoneBook.base.AbstractEntityDAO;
@@ -43,7 +44,7 @@ public class RoleDAO extends AbstractEntityDAO<Role> {
 	}
 
 	@Override
-	public Set<Role> getAll() {
+	public List<Role> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

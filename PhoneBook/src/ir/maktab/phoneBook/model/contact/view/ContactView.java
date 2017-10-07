@@ -7,14 +7,16 @@ import ir.maktab.phoneBook.model.contact.Contact;
 
 public class ContactView extends AbstractEntityView<Contact> {
 
+
+
 	@Override
-	public void print(Object e) {
+	public void print(Collection e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void print(Collection e) {
+	public void print(Contact e) {
 		// TODO Auto-generated method stub
 		
 	}

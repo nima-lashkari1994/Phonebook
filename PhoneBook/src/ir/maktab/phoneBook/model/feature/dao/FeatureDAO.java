@@ -1,11 +1,8 @@
 package ir.maktab.phoneBook.model.feature.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
+import java.util.List;
+
 
 import ir.maktab.phoneBook.base.AbstractEntityDAO;
 import ir.maktab.phoneBook.model.feature.Feature;
@@ -47,7 +44,7 @@ public class FeatureDAO extends AbstractEntityDAO<Feature> {
 	}
 
 	@Override
-	public Set<Feature> getAll() {
+	public List<Feature> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

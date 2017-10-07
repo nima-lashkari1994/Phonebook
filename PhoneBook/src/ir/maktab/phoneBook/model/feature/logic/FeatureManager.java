@@ -1,7 +1,8 @@
 package ir.maktab.phoneBook.model.feature.logic;
 
 
-import java.util.Set;
+
+import java.util.List;
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
 import ir.maktab.phoneBook.model.feature.Feature;
@@ -37,7 +38,7 @@ public class FeatureManager extends AbstractEntityManager<Feature> {
 	}
 
 	@Override
-	public Set<Feature> list() {
+	public List<Feature> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}

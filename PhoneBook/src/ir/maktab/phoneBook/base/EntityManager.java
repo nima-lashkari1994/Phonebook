@@ -1,13 +1,14 @@
 package ir.maktab.phoneBook.base;
 
-import java.util.Set;
+
+import java.util.List;
 
 public interface EntityManager <E>{
 	
 	boolean add(E e);
 	void update(E e);
 	void delete(E e);
-	Set<E> list();
+	List<E> list();
 	E getByUserName(String Name);
 	E createNew();
 }

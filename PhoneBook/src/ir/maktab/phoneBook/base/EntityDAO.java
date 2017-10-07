@@ -1,6 +1,7 @@
 package ir.maktab.phoneBook.base;
 
-import java.util.Set;
+
+import java.util.List;
 
 public interface EntityDAO <E>{
 	
@@ -8,6 +9,6 @@ public interface EntityDAO <E>{
 	void delete (E e);
 	void update(E e);
 	E getByUserName(String userName);
-	Set<E> getAll();
+	List<E> getAll();
 	
 }

@@ -1,27 +1,29 @@
 package ir.maktab.phoneBook.base;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import ir.maktab.phoneBook.model.user.User;
-
 public abstract class AbstractEntityDAO<E> implements EntityDAO<E> {
-
-	protected Session session;
-	protected SessionFactory sessionFactory;
-	protected Configuration conf;
 	
-	public AbstractEntityDAO() {
-		
-		conf = new Configuration();
-
-		conf.configure();
-
-		sessionFactory = conf.buildSessionFactory();
-		
-	}
 	
+
+	private static final SessionFactory ourSessionFactory;
+
+    static {
+        try {
+            ourSessionFactory = new Configuration().
+                    configure("hibernate.cfg.xml").
+                    buildSessionFactory();
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+// this is a test
+    
+    public static Session getSession() throws HibernateException {
+        return ourSessionFactory.openSession();
+    }
 
 }

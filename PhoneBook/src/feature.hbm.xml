@@ -1,22 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?> 
-<!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD//EN" 
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-
 <hibernate-mapping>
-	<class name="ir.maktab.phoneBook.model.feature.Feature" table="features">
+
+	<class name="ir.maktab.phoneBook.model.feature.Feature" table="Features">
+		<meta attribute="class-description">
+			This class contains the feature records.
+		</meta>
 		<id name="feature" type="string" column="Feature">
-
 		</id>
-
-		<set name="roles" table="role_feature" inverse="true" lazy="true"
-			fetch="select">
-			<key>
-				<column name="Feature" not-null="true" />
-			</key>
-			<many-to-many entity-name="ir.maktab.phoneBook.model.role.Role">
-				<column name="Role" not-null="true" />
-			</many-to-many>
-		</set>
-
 	</class>
+	
 </hibernate-mapping>

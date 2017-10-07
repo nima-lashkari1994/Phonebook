@@ -1,6 +1,8 @@
 package ir.maktab.phoneBook.model.contact.dao;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import ir.maktab.phoneBook.base.AbstractEntityDAO;
 import ir.maktab.phoneBook.model.contact.Contact;
@@ -42,7 +44,7 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 	}
 
 	@Override
-	public Collection<Contact> getAll() {
+	public List<Contact> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
