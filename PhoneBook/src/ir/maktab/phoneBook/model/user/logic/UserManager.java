@@ -4,6 +4,7 @@ import java.util.Set;
 
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
+import ir.maktab.phoneBook.model.role.Role;
 import ir.maktab.phoneBook.model.user.User;
 import ir.maktab.phoneBook.model.user.dao.UserDAO;
 
@@ -24,6 +25,7 @@ public class UserManager extends AbstractEntityManager<User> {
 	
 	@Override
 	public boolean add(User e) {
+		e.setRole(Role.getSimpleUserRole());
 		return this.getDao().add(e);
 	}
 
