@@ -49,7 +49,9 @@ public class UserService extends AbstractEntityService<User>{
 	}
 
 	@Override
-	public void remove(String userName) {
+	@DELETE
+	@Path("/{userName}")
+	public void remove(@PathParam("userName")String userName) {
 		this.remove(this.getByUserName(userName));
 	}
 

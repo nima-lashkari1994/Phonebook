@@ -4,12 +4,16 @@ package ir.maktab.phoneBook.model.user;
 
 
 
+import javax.persistence.Transient;
+
 import ir.maktab.phoneBook.model.role.Role;
+
 
 public class User {
 	
 	private String userName;
 	private String password;
+		
 	private Role role;
 
 	public User(String userName, String password, Role role) {

@@ -18,10 +18,12 @@ public class UserDAO extends AbstractEntityDAO<User> {
 
 	private static UserDAO userDAOInstance = new UserDAO();
 	private UserDAO() {
+		
+		System.out.println("constracuto ruuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuun");
 		Session session = getSession();
 
 		session.beginTransaction();
-		if(session.createQuery("from Role where role=admin")==null)
+		if(session.createQuery("from Role where name='admin'").uniqueResult()==null)
 		session.save(Role.getAdminRole());
 		try {
 			session.getTransaction().commit();
@@ -32,7 +34,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		session = getSession();
 
 		session.beginTransaction();
-		if(session.createQuery("from Role where role=head")==null)
+		if(session.createQuery("from Role where name='head'").uniqueResult()==null)
 		session.save(Role.getHeadRole());
 		try {
 			session.getTransaction().commit();
@@ -43,7 +45,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		session = getSession();
 
 		session.beginTransaction();
-		if(session.createQuery("from Role where role=simpleUser")==null)
+		if(session.createQuery("from Role where name='simpleUser'").uniqueResult()==null)
 		session.save(Role.getSimpleUserRole());
 		try {
 			session.getTransaction().commit();
@@ -54,7 +56,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		session = getSession();
 
 		session.beginTransaction();
-		if(session.createQuery("from Role where role=guest")==null)
+		if(session.createQuery("from Role where name='guest'").uniqueResult()==null)
 		session.save(Role.getGuestRole());
 		try {
 			session.getTransaction().commit();
@@ -70,6 +72,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 
 	@Override
 	public boolean add(User e) {
+		
 		System.out.println(e + "  in dao");
 		Session session = getSession();
 
@@ -87,7 +90,17 @@ public class UserDAO extends AbstractEntityDAO<User> {
 
 	@Override
 	public void delete(User e) {
+		System.out.println(e + "  in dao");
+		Session session = getSession();
 
+		session.beginTransaction();
+		session.remove(e);
+		try {
+			session.getTransaction().commit();
+		} catch (Exception x) {
+			x.printStackTrace();
+		}
+		session.close();
 	}
 
 	@Override
@@ -126,6 +139,9 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		tx = session.beginTransaction();
 		Query q=session.createQuery("from User");
 		users=q.list();
+		for(User user:users){
+			user.getRole();
+		}
 		tx.commit();
 		}catch (HibernateException e) {
 			
