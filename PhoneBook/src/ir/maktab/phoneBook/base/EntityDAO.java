@@ -10,5 +10,4 @@ public interface EntityDAO <E>{
 	void update(E e);
 	E getByUserName(String userName);
 	List<E> getAll();
-	
 }

@@ -1,11 +1,11 @@
 package ir.maktab.phoneBook.model.contact.logic;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
 import ir.maktab.phoneBook.model.contact.Contact;
+import ir.maktab.phoneBook.model.contact.dao.ContactDAO;
 
 public class ContactManager extends AbstractEntityManager<Contact> {
 	
@@ -21,38 +21,34 @@ public class ContactManager extends AbstractEntityManager<Contact> {
 
 	@Override
 	public boolean add(Contact e) {
-		// TODO Auto-generated method stub
-		return true;
+		return ContactDAO.getInstance().add(e);
 	}
 
 	@Override
 	public void update(Contact e) {
-		// TODO Auto-generated method stub
-		
+		ContactDAO.getInstance().update(e);
 	}
 
 	@Override
 	public void delete(Contact e) {
-		// TODO Auto-generated method stub
-		
+		ContactDAO.getInstance().delete(e);
 	}
 
 	@Override
 	public List<Contact> list() {
-		// TODO Auto-generated method stub
-		return null;
+		return ContactDAO.getInstance().getAll();
 	}
 
-	@Override
-	public Contact getByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public Contact createNew() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Contact> list(String start, String len) {
+		int startIndex=Integer.parseInt(start);
+		int endIndex=Integer.parseInt(len);
+		return ContactDAO.getInstance().getAll().subList(startIndex,endIndex);
+	}
+	
+	public List<Contact> search(String firstName,String lastName){
+		return ContactDAO.getInstance().search(firstName,lastName);
 	}
 
 }

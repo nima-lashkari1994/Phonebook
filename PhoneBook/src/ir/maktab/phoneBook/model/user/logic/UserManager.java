@@ -20,41 +20,40 @@ public class UserManager extends AbstractEntityManager<User> {
 		
 	}
 
-	public UserDAO getDao(){
-		return UserDAO.getInstance();
-	}
-	
 	@Override
 	public boolean add(User e) {
 		e.setRole(Role.getSimpleUserRole());
-		System.out.println(e+"  in manager");
-		return this.getDao().add(e);
+		return UserDAO.getInstance().add(e);
 	}
 
 	@Override
 	public void update(User e) {
-		this.getDao().update(e);
+		if(e.getRole()==null){
+			e.setRole(this.getByUserName(e.getUserName()).getRole());
+		}
+		UserDAO.getInstance().update(e);
 	}
 
 	@Override
 	public void delete(User e) {
-		this.getDao().delete(e);
+		UserDAO.getInstance().delete(e);
 	}
 
 	@Override
 	public List<User> list() {
-		return this.getDao().getAll();
+		return UserDAO.getInstance().getAll();
 	}
 
-	@Override
 	public User getByUserName(String userName) {
-		return this.getDao().getByUserName(userName);
+		return UserDAO.getInstance().getByUserName(userName);
 	}
 
+
 	@Override
-	public User createNew() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> list(String start, String len) {
+		int startIndex=Integer.parseInt(start);
+		int endIndex=Integer.parseInt(len);
+		return UserDAO.getInstance().getAll().subList(startIndex, endIndex);
 	}
 
 }
