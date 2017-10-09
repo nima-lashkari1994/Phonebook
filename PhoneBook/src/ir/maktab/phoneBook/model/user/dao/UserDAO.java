@@ -79,7 +79,6 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		init();
 	}
 
-	@Override
 	public User getByUserName(String userName) {
 		init();
 		User user = null;

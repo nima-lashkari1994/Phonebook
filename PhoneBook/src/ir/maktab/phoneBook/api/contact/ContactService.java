@@ -3,6 +3,7 @@ package ir.maktab.phoneBook.api.contact;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import ir.maktab.phoneBook.base.AbstractEntityService;
+import ir.maktab.phoneBook.core.SearchInput;
 import ir.maktab.phoneBook.model.contact.Contact;
 import ir.maktab.phoneBook.model.contact.logic.ContactManager;
 
@@ -35,12 +37,14 @@ public class ContactService extends AbstractEntityService<Contact> {
 	public void remove(Contact e) {
 		ContactManager.getInstance().delete(e);
 	}
-
-	@Override
-	public void remove(String userName) {
-		// TODO Auto-generated method stub
-		
+	
+	
+	@DELETE
+	@Path("/{id}")
+	public void remove(@PathParam("id") Integer id) {
+		ContactManager.getInstance().delete(id);
 	}
+
 
 	@Override
 	@PUT
@@ -63,8 +67,9 @@ public class ContactService extends AbstractEntityService<Contact> {
 	
 	@GET
 	@Path("/search")
-	public List<Contact> search(@QueryParam("firstName")String firstName ,@QueryParam("lastName")String lastName){
-		return ContactManager.getInstance().search(firstName,lastName);
+	public List<Contact> search(@BeanParam SearchInput input){
+		System.out.println(input);
+		return ContactManager.getInstance().search(input);
 	}
 	
 	

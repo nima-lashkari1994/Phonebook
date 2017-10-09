@@ -9,7 +9,6 @@ public interface EntityService<E> {
 	
 	Response add(E e);
 	void remove(E e);
-	void remove(String userName);
 	void update(E e);
 	List<E> getAll();
 	List<E> getAll(String start, String len);

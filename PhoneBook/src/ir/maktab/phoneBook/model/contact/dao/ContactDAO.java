@@ -1,14 +1,25 @@
 package ir.maktab.phoneBook.model.contact.dao;
 
 
+import java.io.File;
 import java.util.List;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.mysema.query.codegen.GenericExporter;
+import com.mysema.query.codegen.Keywords;
+
 import ir.maktab.phoneBook.base.AbstractEntityDAO;
+import ir.maktab.phoneBook.core.SearchInput;
 import ir.maktab.phoneBook.model.contact.Contact;
 import ir.maktab.phoneBook.model.role.Role;
 import ir.maktab.phoneBook.model.user.User;
@@ -54,6 +65,22 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		}
 		session.close();
 	}
+	
+	
+	public void delete(int id) {
+		Session session = getSession();
+
+		session.beginTransaction();
+		Query q=session.createQuery("delete from Contact where id=:id");
+		q.setParameter("id", id);
+		q.executeUpdate();
+		try {
+			session.getTransaction().commit();
+		} catch (Exception x) {
+			x.printStackTrace();
+		}
+		session.close();
+	}
 
 	@Override
 	public void update(Contact e) {
@@ -80,12 +107,6 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		}
 		session.close();
 	}
-
-	@Override
-	public Contact getByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public Contact getById(int id){
 		Contact contact = null;
@@ -104,15 +125,23 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		return contact;
 	}
 	
-	public List<Contact> search(String firstName,String lastName){
+	public List<Contact> search(SearchInput input){
 		List<Contact> contacts = null;
 		Session session = getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Query q = session.createQuery("from Contact where firstName like :firstName and lastName like :lastName");
-			q.setParameter("lastName", "%"+lastName+"%");
-			q.setParameter("firstName", "%"+firstName+"%");
+			Query q = session.createQuery("from Contact where firstName like :firstName "
+					+ "and lastName like :lastName "
+					+ "and email like:email "
+					+ "and mobileNumber like :mobileNumber "
+					+ "and homeNumber like :homeNumber");
+			
+			q.setParameter("lastName", "%"+input.getLastName()+"%");
+			q.setParameter("firstName", "%"+input.getFirstName()+"%");
+			q.setParameter("email", "%"+input.getEmail()+"%");
+			q.setParameter("homeNumber", "%"+input.getHomeNumber()+"%");
+			q.setParameter("mobileNumber", "%"+input.getMobileNumber()+"%");
 			contacts = q.list();
 			tx.commit();
 		} catch (HibernateException e) {
@@ -120,6 +149,7 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 			e.printStackTrace();
 		}
 		session.close();
+		System.out.println(input);
 		return contacts;
 	}
 
