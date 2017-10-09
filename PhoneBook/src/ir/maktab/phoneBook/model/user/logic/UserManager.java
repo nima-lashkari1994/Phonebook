@@ -25,6 +25,10 @@ public class UserManager extends AbstractEntityManager<User> {
 		e.setRole(Role.getSimpleUserRole());
 		return UserDAO.getInstance().add(e);
 	}
+	
+	public User signIn(User e){
+		return UserDAO.getInstance().signIn(e);
+	}
 
 	@Override
 	public void update(User e) {

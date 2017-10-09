@@ -1,6 +1,8 @@
 package ir.maktab.phoneBook.api.user;
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -13,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 
 import ir.maktab.phoneBook.base.AbstractEntityService;
+import ir.maktab.phoneBook.model.role.Role;
 import ir.maktab.phoneBook.model.user.User;
 import ir.maktab.phoneBook.model.user.logic.UserManager;
 
@@ -28,6 +31,25 @@ public class UserService extends AbstractEntityService<User>{
 		 } else {
 			 return Response.ok("Try another Username").build();
 		 }
+	}
+	
+	@POST
+	@Path("/signin")
+	public Response signIn(User e){
+		
+		User user=UserManager.getInstance().signIn(e);
+		System.out.println(user);
+		if(user!=null){
+			if(user.getRole().getName().equals("admin")){
+				return Response.ok("http://localhost:85/PhoneBook/adminpage.html").status(200).build();
+			}
+			else{
+				return Response.ok("http://localhost:85/PhoneBook/userpage.html").status(200).build();
+			}
+		}
+		else{
+			return Response.ok("Wrong UserName or Password").status(201).build();
+		}
 	}
 
 	@GET

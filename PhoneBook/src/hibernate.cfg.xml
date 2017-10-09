@@ -11,9 +11,9 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">false</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
-        <mapping resource="feature.hbm.xml"/>
-        <mapping resource="role.hbm.xml"/>
-        <mapping resource="user.hbm.xml"/>
-        <mapping resource="contact.hbm.xml"/>
+        <mapping resource="ir/maktab/phoneBook/core/hibernate/feature.hbm.xml"/>
+        <mapping resource="ir/maktab/phoneBook/core/hibernate/role.hbm.xml"/>
+        <mapping resource="ir/maktab/phoneBook/core/hibernate/user.hbm.xml"/>
+        <mapping resource="ir/maktab/phoneBook/core/hibernate/contact.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -43,6 +43,25 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		return true;
 	}
 
+	public User signIn(User e) {
+		
+		init();
+		Session session = getSession();
+
+		session.beginTransaction();
+		Query q=session.createQuery("from User where userName=:userName and password=:password");
+		q.setParameter("userName", e.getUserName());
+		q.setParameter("password", e.getPassword());
+		User user=(User)q.uniqueResult();
+		try {
+			session.getTransaction().commit();
+		} catch (Exception x) {
+			x.printStackTrace();
+		}
+		session.close();
+		return user;
+	}
+
 	@Override
 	public void delete(User e) {
 		Session session = getSession();
@@ -61,7 +80,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 	@Override
 	public void update(User e) {
 		Session session = getSession();
-		if(e.getRole().equals(Role.getAdminRole()) && !e.getUserName().equals("admin")){
+		if (e.getRole().equals(Role.getAdminRole()) && !e.getUserName().equals("admin")) {
 			return;
 		}
 		session.beginTransaction();
