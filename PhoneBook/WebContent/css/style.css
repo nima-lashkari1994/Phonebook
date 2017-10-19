@@ -1,0 +1,14 @@
+@CHARSET "windows-1256";
+
+body{
+	padding:10px;
+}
+
+*{
+
+font-family: 'Roboto', sans-serif;
+}
+
+#view{
+	margin-top:50px;
+}

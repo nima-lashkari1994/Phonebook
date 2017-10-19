@@ -15,5 +15,6 @@
         <mapping resource="ir/maktab/phoneBook/core/hibernate/role.hbm.xml"/>
         <mapping resource="ir/maktab/phoneBook/core/hibernate/user.hbm.xml"/>
         <mapping resource="ir/maktab/phoneBook/core/hibernate/contact.hbm.xml"/>
+        <mapping resource="ir/maktab/phoneBook/core/hibernate/event.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -13,12 +13,16 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
+	
+
 	<servlet>
+
+
 		<servlet-name>Jersey REST Service</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>ir.maktab.phoneBook.api</param-value>
+			<param-value>ir.maktab.phoneBook.api,ir.maktab.phoneBook.core.filters</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -27,5 +31,9 @@
 		<servlet-name>Jersey REST Service</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+
+
+
+
 
 </web-app>

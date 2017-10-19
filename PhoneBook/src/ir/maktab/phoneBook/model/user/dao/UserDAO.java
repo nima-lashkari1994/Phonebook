@@ -2,16 +2,20 @@ package ir.maktab.phoneBook.model.user.dao;
 
 import java.util.List;
 
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ir.maktab.phoneBook.base.AbstractEntityDAO;
+import ir.maktab.phoneBook.core.ContactSearchInput;
+import ir.maktab.phoneBook.core.UserSearchInput;
+import ir.maktab.phoneBook.model.contact.Contact;
 import ir.maktab.phoneBook.model.role.Role;
+import ir.maktab.phoneBook.model.role.dao.RoleDAO;
+import ir.maktab.phoneBook.model.role.logic.RoleManager;
 import ir.maktab.phoneBook.model.user.User;
 
 public class UserDAO extends AbstractEntityDAO<User> {
@@ -19,7 +23,6 @@ public class UserDAO extends AbstractEntityDAO<User> {
 	private static UserDAO userDAOInstance = new UserDAO();
 
 	private UserDAO() {
-		init();
 	}
 
 	public static UserDAO getInstance() {
@@ -29,6 +32,9 @@ public class UserDAO extends AbstractEntityDAO<User> {
 	@Override
 	public boolean add(User e) {
 		init();
+
+	
+
 		Session session = getSession();
 
 		session.beginTransaction();
@@ -36,7 +42,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			session.close();
 			return false;
 		}
 		session.close();
@@ -44,26 +50,30 @@ public class UserDAO extends AbstractEntityDAO<User> {
 	}
 
 	public User signIn(User e) {
-		
+
 		init();
 		Session session = getSession();
 
 		session.beginTransaction();
-		Query q=session.createQuery("from User where userName=:userName and password=:password");
+		Query q = session.createQuery("from User where userName=:userName and password=:password");
 		q.setParameter("userName", e.getUserName());
 		q.setParameter("password", e.getPassword());
-		User user=(User)q.uniqueResult();
+		User user = (User) q.uniqueResult();
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			session.close();
+			return null;
 		}
 		session.close();
 		return user;
 	}
 
 	@Override
-	public void delete(User e) {
+	public boolean delete(User e) {
+		if( e.getRole().equals(Role.getGuestRole())   ||  e.getRole().equals(Role.getAdminRole())   ){
+			return false;
+		}
 		Session session = getSession();
 
 		session.beginTransaction();
@@ -71,18 +81,19 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			session.close();
+			return false;
 		}
 		session.close();
 		init();
+		return true;
 	}
 
 	@Override
-	public void update(User e) {
+	public boolean update(User e) {
 		Session session = getSession();
-		if (e.getRole().equals(Role.getAdminRole()) && !e.getUserName().equals("admin")) {
-			return;
-		}
+		
+		
 		session.beginTransaction();
 		Query q = session.createQuery("update User set password=:password , role=:role where userName=:userName");
 		q.setParameter("userName", e.getUserName());
@@ -92,14 +103,15 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			session.close();
+			return false;
 		}
 		session.close();
 		init();
+		return true;
 	}
 
 	public User getByUserName(String userName) {
-		init();
 		User user = null;
 		Session session = getSession();
 		Transaction tx = null;
@@ -112,14 +124,12 @@ public class UserDAO extends AbstractEntityDAO<User> {
 			return null;
 		}
 		session.close();
-		System.out.println(user);
 		return user;
 
 	}
 
 	@Override
 	public List<User> getAll() {
-		init();
 		List<User> users = null;
 		Session session = getSession();
 		Transaction tx = null;
@@ -127,9 +137,6 @@ public class UserDAO extends AbstractEntityDAO<User> {
 			tx = session.beginTransaction();
 			Query q = session.createQuery("from User");
 			users = q.list();
-			for (User user : users) {
-				user.getRole();
-			}
 			tx.commit();
 		} catch (HibernateException e) {
 
@@ -141,80 +148,30 @@ public class UserDAO extends AbstractEntityDAO<User> {
 
 	public void init() {
 
-		initAdmin();
-		initSimpleUser();
-		initHead();
-		initGuest();
+		RoleDAO.getInstance().init();
 	}
-
-	public void initAdmin() {
-		User admin = new User("admin", "admin", Role.getAdminRole());
+	
+	
+	public List<User> search(UserSearchInput input){
+		Role role=RoleManager.getInstance().getByName(input.getRoleName());
+		List<User> users = null;
 		Session session = getSession();
-
-		session.beginTransaction();
-		if (session.createQuery("from Role where name='admin'").uniqueResult() == null)
-			session.save(Role.getAdminRole());
+		Transaction tx = null;
 		try {
-			session.getTransaction().commit();
-		} catch (Exception x) {
-			x.printStackTrace();
+			tx = session.beginTransaction();
+			Query q = session.createQuery("from User where userName like :userName ");
+			
+			q.setParameter("userName", "%"+input.getUserName()+"%");
+			users = q.list();
+			tx.commit();
+		} catch (HibernateException e) {
+
+			e.printStackTrace();
 		}
 		session.close();
-
-		session = getSession();
-		if (session.createQuery("from User where role='admin'").uniqueResult() == null) {
-			session.beginTransaction();
-			session.save(admin);
-			try {
-				session.getTransaction().commit();
-			} catch (Exception x) {
-				x.printStackTrace();
-			}
-		}
-		session.close();
-
+		return users;
 	}
 
-	public void initHead() {
-		Session session = getSession();
-
-		session.beginTransaction();
-		if (session.createQuery("from Role where name='head'").uniqueResult() == null)
-			session.save(Role.getHeadRole());
-		try {
-			session.getTransaction().commit();
-		} catch (Exception x) {
-			x.printStackTrace();
-		}
-		session.close();
-	}
-
-	public void initSimpleUser() {
-		Session session = getSession();
-
-		session.beginTransaction();
-		if (session.createQuery("from Role where name='simpleUser'").uniqueResult() == null)
-			session.save(Role.getSimpleUserRole());
-		try {
-			session.getTransaction().commit();
-		} catch (Exception x) {
-			x.printStackTrace();
-		}
-		session.close();
-	}
-
-	public void initGuest() {
-		Session session = getSession();
-
-		session.beginTransaction();
-		if (session.createQuery("from Role where name='guest'").uniqueResult() == null)
-			session.save(Role.getGuestRole());
-		try {
-			session.getTransaction().commit();
-		} catch (Exception x) {
-			x.printStackTrace();
-		}
-		session.close();
-	}
+	
 
 }

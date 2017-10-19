@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="ir.maktab.phoneBook.model.event.Event" table="Events">
+		<meta attribute="class-description">
+			This class contains the event records.
+		</meta>
+		<id name="id" type="long" column="ID">
+			<generator class="native" />
+		</id>
+
+		<property name="name" column="Name" type="string" />
+		<property name="caption" column="caption" type="string" />
+		<property name="date" column="Date" type="date" />
+	</class>
+
+</hibernate-mapping>

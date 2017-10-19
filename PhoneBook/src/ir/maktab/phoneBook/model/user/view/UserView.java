@@ -9,7 +9,7 @@ public class UserView extends AbstractEntityView<User> {
 
 
 	@Override
-	public void print(Collection e) {
+	public void print(Collection<User> e) {
 		// TODO Auto-generated method stub
 		
 	}

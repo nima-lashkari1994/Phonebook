@@ -4,7 +4,7 @@ package ir.maktab.phoneBook.model.user;
 
 
 
-import javax.persistence.Transient;
+
 
 import ir.maktab.phoneBook.model.role.Role;
 
@@ -25,6 +25,8 @@ public class User {
 	public User() {
 	}
 	
+	
+
 
 	public String getUserName() {
 		return userName;

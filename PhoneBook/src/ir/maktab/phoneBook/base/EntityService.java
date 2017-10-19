@@ -7,9 +7,8 @@ import javax.ws.rs.core.Response;
 
 public interface EntityService<E> {
 	
-	Response add(E e);
-	void remove(E e);
-	void update(E e);
+	Response add(E e); // success -> 200  failed--> 406
+	Response remove(E e);  // success -> 204   failed -> 406 
+	Response update(E e);  //success ->200  failed -> 406
 	List<E> getAll();
-	List<E> getAll(String start, String len);
 }

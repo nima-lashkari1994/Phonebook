@@ -64,7 +64,7 @@ public class Role {
 		features.add(new Feature("seeContacts"));
 		features.add(new Feature("createContacts"));
 		
-		return new Role("simpleUser", features);
+		return new Role("simpleuser", features);
 	}
 	
 	public static Role getHeadRole() {
@@ -74,7 +74,8 @@ public class Role {
 		features.add(new Feature("seeContacts"));
 		features.add(new Feature("createContacts"));
 		features.add(new Feature("editContacts"));	
-		features.add(new Feature("seeUserActivities"));
+		features.add(new Feature("seeLog"));
+		
 		
 		return new Role("head", features);
 	}
@@ -87,9 +88,9 @@ public class Role {
 		features.add(new Feature("seeContacts"));
 		features.add(new Feature("createContacts"));
 		features.add(new Feature("editContacts"));	
-		features.add(new Feature("seeUserActivities"));
-		features.add(new Feature("editUsersInformation"));
-		features.add(new Feature("editUsersRole"));
+		features.add(new Feature("seeLog"));
+		features.add(new Feature("editUsers"));
+		features.add(new Feature("editRoles"));
 		
 		return new Role("admin", features);
 	}

@@ -6,7 +6,7 @@ import java.util.List;
 public interface EntityDAO <E>{
 	
 	boolean add(E e);
-	void delete (E e);
-	void update(E e);
+	boolean delete (E e);
+	boolean update(E e);
 	List<E> getAll();
 }

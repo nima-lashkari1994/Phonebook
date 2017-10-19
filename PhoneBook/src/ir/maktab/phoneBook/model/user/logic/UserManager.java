@@ -5,6 +5,10 @@ import java.util.List;
 
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
+import ir.maktab.phoneBook.core.ContactSearchInput;
+import ir.maktab.phoneBook.core.UserSearchInput;
+import ir.maktab.phoneBook.model.contact.Contact;
+import ir.maktab.phoneBook.model.contact.dao.ContactDAO;
 import ir.maktab.phoneBook.model.role.Role;
 import ir.maktab.phoneBook.model.user.User;
 import ir.maktab.phoneBook.model.user.dao.UserDAO;
@@ -22,7 +26,15 @@ public class UserManager extends AbstractEntityManager<User> {
 
 	@Override
 	public boolean add(User e) {
+		
 		e.setRole(Role.getSimpleUserRole());
+		if (e.getUserName().equals("guest") || e.getUserName().equals("Guest")) {
+			return false;
+		}
+
+		if (e.getUserName().equals("admin") || e.getUserName().equals("Admin")) {
+			return false;
+		}
 		return UserDAO.getInstance().add(e);
 	}
 	
@@ -31,16 +43,35 @@ public class UserManager extends AbstractEntityManager<User> {
 	}
 
 	@Override
-	public void update(User e) {
+	public boolean update(User e) {
+		
+		if (e.getRole().equals(Role.getAdminRole()) && !e.getUserName().equals("admin")) {
+			return false;
+		}
+		if (e.getRole().equals(Role.getGuestRole()) && !e.getUserName().equals("guest")) {
+			return false;
+		}
+		if (!e.getRole().equals(Role.getGuestRole()) && e.getUserName().equals("guest")) {
+			return false;
+		}
+		if (!e.getRole().equals(Role.getAdminRole()) && e.getUserName().equals("admin")) {
+			return false;
+		}
+		
 		if(e.getRole()==null){
 			e.setRole(this.getByUserName(e.getUserName()).getRole());
 		}
-		UserDAO.getInstance().update(e);
+		if(UserDAO.getInstance().update(e)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	@Override
-	public void delete(User e) {
-		UserDAO.getInstance().delete(e);
+	public boolean delete(User e) {
+		return UserDAO.getInstance().delete(e);
 	}
 
 	@Override
@@ -51,13 +82,20 @@ public class UserManager extends AbstractEntityManager<User> {
 	public User getByUserName(String userName) {
 		return UserDAO.getInstance().getByUserName(userName);
 	}
-
-
-	@Override
-	public List<User> list(String start, String len) {
-		int startIndex=Integer.parseInt(start);
-		int endIndex=Integer.parseInt(len);
-		return UserDAO.getInstance().getAll().subList(startIndex, endIndex);
+	
+	
+	public List<User> search(UserSearchInput input){
+		if(input.getUserName()==null){
+			input.setUserName("");
+		}
+		if(input.getRoleName()==null){
+			input.setRoleName("");
+		}
+		
+	
+		return UserDAO.getInstance().search(input);
 	}
+
+
 
 }

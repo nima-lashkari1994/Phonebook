@@ -10,7 +10,7 @@ public class ContactView extends AbstractEntityView<Contact> {
 
 
 	@Override
-	public void print(Collection e) {
+	public void print(Collection<Contact> e) {
 		// TODO Auto-generated method stub
 		
 	}

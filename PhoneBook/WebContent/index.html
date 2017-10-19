@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="windows-1256">
+<title>Insert title here</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<script src="scripts/script.js"></script>
+</head>
+<body>
+<script>sessionStorage.removeItem("userName"); console.log("set to null");</script>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<input class="form-control" placeholder="UserName" type="text" id="signInUsername">
+				</div>
+				<div class="form-group">
+					<input class="form-control" placeholder="Password" type="password" id="signInPassword">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary form-control" onclick="signin()">SignIn</button>
+				</div>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="form-group">
+					<input class="form-control" placeholder="UserName" type="text" id="signUpUsername">
+				</div>
+				<div class="form-group">
+					<input class="form-control" placeholder="Password" type="password" id="signUpPassword">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary form-control" onclick="signup()">SignUp</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

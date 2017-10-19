@@ -1,28 +1,18 @@
 package ir.maktab.phoneBook.model.contact.dao;
 
 
-import java.io.File;
-import java.util.List;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.mysema.query.codegen.GenericExporter;
-import com.mysema.query.codegen.Keywords;
 
 import ir.maktab.phoneBook.base.AbstractEntityDAO;
-import ir.maktab.phoneBook.core.SearchInput;
+import ir.maktab.phoneBook.core.ContactSearchInput;
 import ir.maktab.phoneBook.model.contact.Contact;
-import ir.maktab.phoneBook.model.role.Role;
-import ir.maktab.phoneBook.model.user.User;
 
 public class ContactDAO extends AbstractEntityDAO<Contact> {
 	
@@ -53,7 +43,7 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 	}
 
 	@Override
-	public void delete(Contact e) {
+	public boolean delete(Contact e) {
 		Session session = getSession();
 
 		session.beginTransaction();
@@ -61,13 +51,14 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			return false;
 		}
 		session.close();
+		return true;
 	}
 	
 	
-	public void delete(int id) {
+	public boolean delete(int id) {
 		Session session = getSession();
 
 		session.beginTransaction();
@@ -77,13 +68,14 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			return false;
 		}
 		session.close();
+		return true;
 	}
 
 	@Override
-	public void update(Contact e) {
+	public boolean update(Contact e) {
 		Session session = getSession();
 		session.beginTransaction();
 		Query q = session.createQuery("update Contact set "
@@ -103,9 +95,10 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		try {
 			session.getTransaction().commit();
 		} catch (Exception x) {
-			x.printStackTrace();
+			return false;
 		}
 		session.close();
+		return true;
 	}
 	
 	public Contact getById(int id){
@@ -121,11 +114,10 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 			return null;
 		}
 		session.close();
-		System.out.println(contact);
 		return contact;
 	}
 	
-	public List<Contact> search(SearchInput input){
+	public List<Contact> search(ContactSearchInput input){
 		List<Contact> contacts = null;
 		Session session = getSession();
 		Transaction tx = null;
@@ -149,7 +141,6 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 			e.printStackTrace();
 		}
 		session.close();
-		System.out.println(input);
 		return contacts;
 	}
 

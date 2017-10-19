@@ -2,7 +2,7 @@ package ir.maktab.phoneBook.core;
 
 import javax.ws.rs.QueryParam;
 
-public class SearchInput {
+public class ContactSearchInput {
 	
 	@QueryParam("fname")
 	private String firstName;

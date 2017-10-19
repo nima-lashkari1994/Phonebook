@@ -4,7 +4,7 @@ package ir.maktab.phoneBook.model.contact.logic;
 import java.util.List;
 
 import ir.maktab.phoneBook.base.AbstractEntityManager;
-import ir.maktab.phoneBook.core.SearchInput;
+import ir.maktab.phoneBook.core.ContactSearchInput;
 import ir.maktab.phoneBook.model.contact.Contact;
 import ir.maktab.phoneBook.model.contact.dao.ContactDAO;
 
@@ -26,17 +26,20 @@ public class ContactManager extends AbstractEntityManager<Contact> {
 	}
 
 	@Override
-	public void update(Contact e) {
-		ContactDAO.getInstance().update(e);
+	public boolean update(Contact e) {
+		return ContactDAO.getInstance().update(e);
+		
 	}
 
 	@Override
-	public void delete(Contact e) {
-		ContactDAO.getInstance().delete(e);
+	public boolean delete(Contact e) {
+		return ContactDAO.getInstance().delete(e);
+		
 	}
 	
-	public void delete(int id) {
-		ContactDAO.getInstance().delete(id);
+	public boolean delete(int id) {
+		return ContactDAO.getInstance().delete(id);
+		
 	}
 
 	@Override
@@ -45,14 +48,8 @@ public class ContactManager extends AbstractEntityManager<Contact> {
 	}
 
 
-	@Override
-	public List<Contact> list(String start, String len) {
-		int startIndex=Integer.parseInt(start);
-		int endIndex=Integer.parseInt(len);
-		return ContactDAO.getInstance().getAll().subList(startIndex,endIndex);
-	}
 	
-	public List<Contact> search(SearchInput input){
+	public List<Contact> search(ContactSearchInput input){
 		if(input.getFirstName()==null){
 			input.setFirstName("");
 		}
