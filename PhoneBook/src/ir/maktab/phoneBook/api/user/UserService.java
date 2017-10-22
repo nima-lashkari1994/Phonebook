@@ -1,6 +1,7 @@
 package ir.maktab.phoneBook.api.user;
 
-import java.util.List;
+import java.util.*;
+
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.DELETE;
@@ -12,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
+
 import ir.maktab.phoneBook.base.AbstractEntityService;
 import ir.maktab.phoneBook.core.UserSearchInput;
 import ir.maktab.phoneBook.model.user.User;
@@ -20,7 +23,7 @@ import ir.maktab.phoneBook.model.user.logic.UserManager;
 @Path("/user/items")
 public class UserService extends AbstractEntityService<User> {
 	
-	
+	static Logger log = Logger.getLogger(UserService.class.getName());
 	
 
 	@Override
@@ -29,8 +32,10 @@ public class UserService extends AbstractEntityService<User> {
 	public Response add(User e) {
 
 		if (UserManager.getInstance().add(e)) {
+			log.info("a user signed up");
 			return Response.status(Status.NO_CONTENT).build();
 		} else {
+			log.info("a user couldnt sign up");
 			return Response.status(Status.FORBIDDEN).build();
 		}
 	}
