@@ -57,42 +57,13 @@ public class ContactDAO extends AbstractEntityDAO<Contact> {
 		return true;
 	}
 	
-	
-	public boolean delete(int id) {
-		Session session = getSession();
-
-		session.beginTransaction();
-		Query q=session.createQuery("delete from Contact where id=:id");
-		q.setParameter("id", id);
-		q.executeUpdate();
-		try {
-			session.getTransaction().commit();
-		} catch (Exception x) {
-			return false;
-		}
-		session.close();
-		return true;
-	}
 
 	@Override
 	public boolean update(Contact e) {
 		Session session = getSession();
 		session.beginTransaction();
-		Query q = session.createQuery("update Contact set "
-				+ "firstName=:firstName ,"
-				+ " lastName=:lastName ,"
-				+ " mobileNumber=:mobileNumber ,"
-				+ " homeNumber=:homeNumber ,"
-				+ " email=:email"
-				+ " where id=:id");
-		q.setParameter("firstName", e.getFirstName());
-		q.setParameter("lastName", e.getLastName());
-		q.setParameter("mobileNumber", e.getMobileNumber());
-		q.setParameter("homeNumber", e.getHomeNumber());
-		q.setParameter("email", e.getEmail());
-		q.setParameter("id", e.getId());
-		q.executeUpdate();
 		try {
+			session.update(e);
 			session.getTransaction().commit();
 		} catch (Exception x) {
 			return false;

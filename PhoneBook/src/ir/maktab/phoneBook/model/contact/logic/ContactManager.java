@@ -38,7 +38,7 @@ public class ContactManager extends AbstractEntityManager<Contact> {
 	}
 	
 	public boolean delete(int id) {
-		return ContactDAO.getInstance().delete(id);
+		return ContactDAO.getInstance().delete(ContactDAO.getInstance().getById(id));
 		
 	}
 

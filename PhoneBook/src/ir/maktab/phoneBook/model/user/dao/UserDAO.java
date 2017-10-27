@@ -71,9 +71,7 @@ public class UserDAO extends AbstractEntityDAO<User> {
 
 	@Override
 	public boolean delete(User e) {
-		if( e.getRole().equals(Role.getGuestRole())   ||  e.getRole().equals(Role.getAdminRole())   ){
-			return false;
-		}
+		
 		Session session = getSession();
 
 		session.beginTransaction();
@@ -95,12 +93,9 @@ public class UserDAO extends AbstractEntityDAO<User> {
 		
 		
 		session.beginTransaction();
-		Query q = session.createQuery("update User set password=:password , role=:role where userName=:userName");
-		q.setParameter("userName", e.getUserName());
-		q.setParameter("role", e.getRole());
-		q.setParameter("password", e.getPassword());
-		q.executeUpdate();
+		
 		try {
+			session.update(e);
 			session.getTransaction().commit();
 		} catch (Exception x) {
 			session.close();
@@ -153,13 +148,12 @@ public class UserDAO extends AbstractEntityDAO<User> {
 	
 	
 	public List<User> search(UserSearchInput input){
-		Role role=RoleManager.getInstance().getByName(input.getRoleName());
 		List<User> users = null;
 		Session session = getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Query q = session.createQuery("from User where userName like :userName ");
+			Query q = session.createQuery("from User where userName like :userName");
 			
 			q.setParameter("userName", "%"+input.getUserName()+"%");
 			users = q.list();
